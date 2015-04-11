@@ -51,7 +51,7 @@
             this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.picBx);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
+            this.MaximizeBox = true;
             this.MinimizeBox = false;
             this.Name = "Browse_Img";
             this.ShowIcon = false;

@@ -285,21 +285,19 @@ namespace Nagru___Manga_Organizer
     /// <returns></returns>
     public static Bitmap ScaleImage(Image img, float fMaxWidth, float fMaxHeight)
     {
-      int iWidth = img.Width;
-      int iHeight = img.Height;
+        int iWidth = img.Width;
+        int iHeight = img.Height;
 
-      if (img.Width > fMaxWidth || img.Height > fMaxHeight) {
         float fRatio = Math.Min(
-          fMaxWidth / img.Width,
-          fMaxHeight / img.Height);
+        fMaxWidth / img.Width,
+        fMaxHeight / img.Height);
 
         iWidth = (int)(img.Width * fRatio);
         iHeight = (int)(img.Height * fRatio);
-      }
 
-      Bitmap bmpNew = new Bitmap(iWidth, iHeight);
-      Graphics.FromImage(bmpNew).DrawImage(img, 0, 0, iWidth, iHeight);
-      return bmpNew;
+        Bitmap bmpNew = new Bitmap(iWidth, iHeight);
+        Graphics.FromImage(bmpNew).DrawImage(img, 0, 0, iWidth, iHeight);
+        return bmpNew;
     }
 
     /// <summary>

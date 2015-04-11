@@ -39,10 +39,17 @@ namespace Nagru___Manga_Organizer
 
 		#region Initialization
 
-		public Browse_Img()
+    public Browse_Img()
     {
-      InitializeComponent();
+        InitializeComponent();
+        Resize += Form1_Resize;
     }
+
+    private void Form1_Resize(object sender, EventArgs e)
+    {
+        Reload();
+    }
+      
 
 		private void Browse_Load(object sender, EventArgs e)
     {
@@ -320,6 +327,23 @@ namespace Nagru___Manga_Organizer
       Refresh(imgL, imgR);
     }
 
+    /// <summary>
+    /// Reload the iamges
+    /// </summary>
+    private void Reload()
+    {
+        Image imgL = null, imgR = null;		//holds the loaded image files
+        Reset(Next: false);								//reset the page values to their default
+
+        imgL = TryLoad(Page);
+        imgR = TryLoad(Page -1);
+
+        bWideL = imgL.Height < imgL.Width;
+        bWideR = (imgR != null) ? imgR.Height < imgR.Width : false;
+
+        Refresh(imgL, imgR);
+    }
+
 		/// <summary>
 		/// Try to load the image at the indicated index
 		/// </summary>
@@ -340,9 +364,18 @@ namespace Nagru___Manga_Organizer
           }
 
           bmpTmp = new Bitmap(ms);
-          bmpTmp = Ext.ScaleImage(bmpTmp
-					  , (bmpTmp.Width > bmpTmp.Height) ? picBx.Width : fWidth
-					  , picBx.Height);
+          
+
+          if (bmpTmp.Width > bmpTmp.Height)
+          {
+              bmpTmp = Ext.ScaleImage(bmpTmp, Bounds.Width, Bounds.Height);
+          }
+          else
+          {
+              bmpTmp = Ext.ScaleImage(bmpTmp, Bounds.Width / 2, Bounds.Height);
+          }
+          
+        
         } catch (Exception ex) {
           Console.WriteLine(ex.Message);
         }
@@ -403,13 +436,13 @@ namespace Nagru___Manga_Organizer
 		/// <param name="imgL">The image to draw</param>
 		private void DrawImage(Graphics g, Image img, bool bLeft)
 		{
-			if (img != null)
+
+            if (img != null)
 			{
+
 				g.DrawImage(
 					img
-					, (bLeft ? bWideL : bWideR)
-							? (int)(fWidth - img.Width / 2.0) 
-							: fWidth + (bLeft ? -(img.Width + 5) : 5)
+                     , (bLeft ? bWideL : bWideR) ? (int)(Bounds.Width - img.Width) / 2 : Width / 2 + (bLeft ? -(img.Width + 5) : 5)
 					, (int)(picBx.Height / 2.0 - img.Height / 2.0)
 					, img.Width
 					, img.Height
